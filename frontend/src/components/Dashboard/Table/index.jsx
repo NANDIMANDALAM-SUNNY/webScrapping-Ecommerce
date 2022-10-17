@@ -1,77 +1,53 @@
 
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
+import Paginations from "../Pagination";
 import styles from "./styles.module.css";
 
-const Table = ({ mobiles }) => {
+const Table = ({ mobiles}) => {
 	console.log(mobiles)
 	return (
 <>
 
-		<div className={styles.container}>
-			<div className={styles.heading}>
-				<p className={styles.title_tab}>Title</p>
-				{/* <p className={styles.genre_tab}>Genre</p> */}
-				<p className={styles.rating_tab}>Rating</p>
-			</div>
-			{/* {movies.map((movie) => (
-				<div className={styles.movie} key={movie._id}>
-					<div className={styles.title_container}>
-						<img src={movie.image} alt="movie" className={styles.movie_img} />
-						<p className={styles.movie_title}>
-							{movie.name} ({movie.year})
-						</p>
-					</div>
-					<div className={styles.rating_container}>
-						<img
-							src="./images/star.png"
-							alt="star"
-							className={styles.star_img}
-						/>
-						<p className={styles.movie_rating}>{movie.rating}</p>
-					</div>
-				</div>
-			))} */}
-		</div>
-
-
-
-{/* {movies.map((movie) => (
-				<div className={styles.movie} key={movie._id}>
-					<div className={styles.title_container}>
-						<img src={movie.image} alt="movie" className={styles.movie_img} />
-						<p className={styles.movie_title}>
-							{movie.name} ({movie.year})
-						</p>
-					</div>
-					<div className={styles.rating_container}>
-						<img
-							src="./images/star.png"
-							alt="star"
-							className={styles.star_img}
-						/>
-						<p className={styles.movie_rating}>{movie.rating}</p>
-					</div>
-				</div>
-			))} */}
+			<Box sx={{pl:2,pr:10,mt:7}}>
 
 {
 	mobiles && mobiles.map((mobile,i)=>{
 		return <>
-		<Box sx={{display:"flex"}}>
-				<Box>
-					<img src={mobile.image}/>
-				</Box>
-				<Box>
-					<Typography sx={{fontSize:"20px"}}>{mobile.title}</Typography>
-					<Typography sx={{fontSize:"20px"}}>{mobile.price}</Typography>
-				</Box>
+			<Box sx={{mt:3}}>
+				<Grid container >
+					<Grid item xs={5} md={3}>
+					<Box sx={{width:"150px",height:"213px"}}>
+						<img src={mobile.image}  alt={mobile.title} style={{ maxWidth: "100%",maxHeight:"100%"}}/>
+					</Box>
+					</Grid>
+					<Grid item xs={5} md={5}>
+						<Box>
+							<Typography sx={{fontSize:"18px",lineHeight:"18px",marginBottom:"10px"}}>{mobile.title}</Typography>
+							<Typography sx={{fontSize:"14px",lineHeight:"14px",color:"#878787",marginBottom:"20px"}}>{mobile.ratings}</Typography>
+							{
+								mobile.specifications.map((item,i)=>{
+									return <>
+										<Typography sx={{fontSize:"14px",lineHeight:"22px"}}>. {item}</Typography>
+									</>
+								})
+							}
+						</Box>
+					</Grid>
+					<Grid item xs={1} md={2}>
+						<Typography  sx={{fontSize:"25px",lineHeight:"19.6px",textAlign:"start",letterSpacing:"normal",paddingBottom:"20px"}}>{mobile.price}</Typography>
+						<span  style={{color:"#878787",fontSize:"15px",lineHeight:"14px",textAlign:"start",letterSpacing:"normal",textDecoration: "line-through"}}>{mobile.originalPrice}</span>
+						<span style={{color:"#388e3c",fontSize:"15px",lineHeight:"14px",textAlign:"start",letterSpacing:"normal",marginLeft:"20px",fontWeight:"500"}} >{mobile.offerPercentage}</span>
+					</Grid>
+					<Grid item xs={0} md={2}>
+					</Grid>
+				</Grid>
 			</Box>
 		</>
 	})
 }
+		</Box>
 
-			
-
+		
 
 
 </>

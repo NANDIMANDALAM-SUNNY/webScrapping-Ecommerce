@@ -12,17 +12,20 @@ import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import FileBase64  from 'react-file-base64'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const Register = () => {
     const navigate = useNavigate();
-
+    const notify = () => toast.success("Registered Successfully!");
     const [img,setImg] = useState("")
     const [loading, setLoading] = useState({
       img:""
     });
     const[file,setFile] = useState("")
-
+    const [notification,setNotification] = useState("")
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit,} = useFormik({
     initialValues: {
       name: "",
@@ -34,23 +37,33 @@ const Register = () => {
 
     validationSchema: signUpSchema,
     onSubmit :async (values,action)=>{
-      await  axios.post("http://localhost:5000/users/register",{...values,"profile":img})
+      await  axios.post("https://webscrap-backend.onrender.com/users/register",{...values,"profile":img})
         .then((res)=>{
-            console.log(res.data)
-            // alert("Registered Successfully")
-            // navigate('/login')
+          setNotification(res.data.message)
+          notifications()
+            navigate('/login')
         })
         .catch((err)=>{
             console.log(err);
             alert(err)
         })
-        // console.log({...values,"profile":img})
-        // action.resetForm()
+
+        action.resetForm()
     },
     onChange:(values)=>{
         console.log(values)
     }
   });
+
+  const notifications = ()=>{
+    if(notification === "Authentication Failed"){
+       toast.error(notification,{theme: "colored"})
+     }else{
+       toast.success(notification,{theme: "colored"})
+     }
+
+   }
+
 
 
     const handleChangeImage =async (e)=>{
@@ -82,11 +95,10 @@ const Register = () => {
             mx: 4,
           }}
         >
-    <Typography variant='h5'  sx={{mt:4}}>Join the Stack Overflow community</Typography>
-    <Typography variant='h6' sx={{pt:4,fontSize:15}}> <span sx={{mr:3}}><LiveHelpIcon  sx={{color:"#0A95FF"}}/></span>  Get unstuck — ask a question</Typography>
-    <Typography variant='h6' sx={{pt:4,fontSize:15}}><span sx={{mr:3}}><LiveHelpIcon sx={{color:"#0A95FF"}} /></span>Unlock new privileges like voting and commenting</Typography>
-    <Typography variant='h6' sx={{pt:4,fontSize:15}}> <span sx={{mr:3}}><LiveHelpIcon sx={{color:"#0A95FF"}} /></span> Save your favorite tags, filters, and jobs</Typography>
-    <Typography variant='h6' sx={{pt:4,fontSize:15}}> <span sx={{mr:3}}><LiveHelpIcon sx={{color:"#0A95FF"}}/></span> Earn reputation and badges</Typography>
+    <Typography variant='h5'  sx={{mt:4}}>The superior solutions at one!</Typography>
+    <Typography variant='h6' sx={{pt:4,fontSize:15}}> <span sx={{mr:3}}><LiveHelpIcon  sx={{color:"#0A95FF"}}/></span>  Personalized Experience</Typography>
+    <Typography variant='h6' sx={{pt:4,fontSize:15}}><span sx={{mr:3}}><LiveHelpIcon sx={{color:"#0A95FF"}} /></span>Get to access with international products</Typography>
+    <Typography variant='h6' sx={{pt:4,fontSize:15}}> <span sx={{mr:3}}><LiveHelpIcon sx={{color:"#0A95FF"}} /></span> Save and Earn more at affordable prices</Typography>
 
         </Box>
     </Grid>

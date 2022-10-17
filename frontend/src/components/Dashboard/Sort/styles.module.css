@@ -5,43 +5,46 @@
 	align-items: center;
 	justify-content: center;
 	box-shadow: var(--box-shadow);
-	background-color: white;
+	background-color: rgb(231, 231, 231);
 	border-radius: 4px;
 }
 
 .sort_by {
 	font-size: 16px;
 	font-weight: 500;
+	margin-right: 20px;
 }
 
 .select {
-	width: 80px;
-	height: 30px;
+	width: 180px;
+	height: 50px;
 	margin-left: 4px;
 	border-radius: 4px;
 	border: 1px solid var(--black);
 	outline: none;
+	font-size: 20px;
 	cursor: pointer;
-	padding: 5px;
+	padding-left: 45px;
+	
 }
 
 .arrow_btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 30px;
-	width: 30px;
+	height: 0px;
+	width: 50px;
 	outline: none;
 	border: 1px solid var(--black);
 	margin-left: 5px;
-	border-radius: 4px;
-	background-color: transparent;
+	/* border-radius: 4px; */
+	/* background-color: transparent; */
 	cursor: pointer;
 }
 
 .up_arrow,
 .down_arrow {
-	font-size: 18px;
+	font-size: 38px;
 	font-weight: bold;
-	color: var(--black);
+	color: black
 }

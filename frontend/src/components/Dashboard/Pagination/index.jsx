@@ -1,4 +1,4 @@
-import Pagination from "react-mui-pagination";
+
 import styles from "./styles.module.css";
 
 const Paginations = ({ page, total, limit, setPage }) => {

@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/webscrap');
 const { default: mongoose } = require('mongoose');
-const { dburl } = require('./views/DbConnection/dbConnection');
+const { dburl } = require('./DbConnection/dbConnection');
 const fileUpload = require('express-fileupload');
 const { fetchProductData,amazonData } = require('./controllers/Product');
 
@@ -18,7 +18,7 @@ mongoose.connect(dburl, { useNewUrlParser: true,useUnifiedTopology: true})
 .then(
   (res) =>  {
     console.log(`Database is Connected`)
-    // console.log(res.connection);
+   
   },
   err => { console.log(`Not Connected`) }
 );
@@ -44,15 +44,17 @@ app.use(fileUpload({
 }))
 
 
-fetchProductData()
-// amazonData()
-
+setInterval(() => {
+  fetchProductData()
+  console.log("New Data fetched after 12 hours")
+}, 43200000);
 
 
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/webscrap', productsRouter);
+
 
 
 

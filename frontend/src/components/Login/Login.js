@@ -1,17 +1,21 @@
-import React,{useContext, useEffect} from 'react'
+import React,{useContext, useEffect, useState} from 'react'
 import axios from 'axios';
 import { Link, Link as RouterLink,useNavigate } from 'react-router-dom';
 import { loginSchema } from "../FormsValidations/LoginForm/index";
 import { useFormik } from "formik";
 import {store} from '../../App'
-
+import logo from '../../images/logo.png'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 
 
 
 const Login = () => {
-     const navigate = useNavigate();
+  const navigate = useNavigate();
   const {token,setToken} = useContext(store);
+  const notify = (message) => toast(message,{theme: "colored",});
+  const [notification,setNotification] = useState("")
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit,} = useFormik({
     initialValues: {
       email: '',
@@ -19,13 +23,14 @@ const Login = () => {
     },
     validationSchema: loginSchema,
     onSubmit :async (values,action)=>{
-      await  axios.post("http://localhost:5000/users/login",values)
+      await  axios.post("https://webscrap-backend.onrender.com/users/login",values)
         .then((res)=>{
           setToken(res.data.data)
-          alert(res.data.message)
+          setNotification(res.data.message)
+          notifications()
         })
         .catch((err)=>{
-          alert('Invalid Credentials')
+          toast.error("Error")
         })
         action.resetForm()
     },
@@ -38,12 +43,20 @@ const Login = () => {
      console.log(token)
      navigate('/')
    } 
- 
+   const notifications = ()=>{
+    if(notification === "Authentication Failed"){
+       toast.error(notification,{theme: "colored"})
+     }else{
+       toast.success(notification,{theme: "colored"})
+     }
 
+   }
+
+ 
   return (
     <>
      <Grid container justifyContent="center" alignItems="center">
-     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Stack_Overflow_icon.svg/768px-Stack_Overflow_icon.svg.png" style={{width:"100px",height:"100px"}}/>
+     <img src={logo} style={{width:"100px",height:"100px"}}/>
      </Grid>
 <Grid
   container
@@ -54,7 +67,7 @@ const Login = () => {
 >
 
   <Grid item xs={3}>
-  <Grid item  component={Paper} sx={{width:400,height:350,pt:3}} elevation={6}>
+  <Grid item  component={Paper} sx={{width:400,height:450,pt:3}} elevation={6}>
      
     <Box
           sx={{
@@ -103,11 +116,11 @@ const Login = () => {
         </Box>
              <Typography sx={{ml:3}} >Don't have account ?  <Typography  component={RouterLink} to='/register'>Sign up</Typography></Typography>   
              {/* forgot-password */}
-             <Typography style={{display:"flex",flexDirection:"row-reverse"}} component={RouterLink} to='/forgot-password'>Fotgot pasword</Typography>
+             <Typography sx={{ml:3,mt:4}} component={RouterLink} to='/forgot-password'>Fotgot pasword</Typography>
 
     </Grid>
    </Grid>
-   
+   <ToastContainer />
 </Grid> 
 
     </>
